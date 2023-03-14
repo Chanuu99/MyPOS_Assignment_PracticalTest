@@ -26,8 +26,30 @@
   border: none;
   color: white;
   cursor: pointer;
+  transition: o.5ms;
+  border: none;
+}
+
+.buttonEdit:hover {
+  background-color: #4c68af92;
 }
 
 .viewHeader{
+  background-color: #9fbcea80;
+}
+
+.addHeader{
+  background-color: #9fbcea80;
+}
+
+.btn btn-primary mr-2{
   background-color: #4c68af;
+}
+
+.btn btn-primary mr-2:hover{
+  background-color: #4c68af92;
+}
+
+.editHeader{
+  background-color: #9fbcea80;
 }
