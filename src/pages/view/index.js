@@ -197,7 +197,7 @@ export default function View() {
                 keyboard={false}
 
             >
-                <Modal.Header closeButton>
+                <Modal.Header className='addHeader' closeButton>
                     <Modal.Title>Add Employee</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -313,7 +313,7 @@ export default function View() {
                 keyboard={false}
 
             >
-                <Modal.Header closeButton>
+                <Modal.Header className='editHeader' closeButton>
                     <Modal.Title>Edit Employee</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
