@@ -1,0 +1,19 @@
+.nav {
+  background-color: #a4a8d1;
+}
+
+Button.navbtn {
+  color: white;
+  background-color: #5D607F;
+  border:none;
+  transition: .5s;
+}
+
+Button.navbtn:hover {
+  background-color: #5d607f89;
+  color: black;
+}
+
+.navLogo{
+  width: 50px;
+}
