@@ -22,10 +22,13 @@ export default function View() {
     const BASE_URI = process.env.REACT_APP_BASE_URI;
     const API_KEY = process.env.REACT_APP_API_KEY;
 
-    const Emp = BASE_URI + "api/v1.0/Employees/"
+    const EmpUrl = BASE_URI + "api/v1.0/Employees/"
     const getDept = BASE_URI + "api/v1.0/Departments"
 
     const [employees, setEmployees] = useState([]);
+    const [departments, setDepartments] = useState([]);
+    const [oneEmployee, setOneEmployee] = useState([]);
+
     const [isActive, setIsActive] = useState("");
     const [status, setStatus] = useState("true");
 
@@ -43,7 +46,7 @@ export default function View() {
 
     useEffect(() => {
         async function getRecords() {
-            const response = axios.get(Emp, {
+            const response = axios.get(EmpUrl, {
                 headers: {
                     "apiToken": API_KEY
                 }
@@ -51,9 +54,19 @@ export default function View() {
             setEmployees(response.data);
         }
         getRecords();
-    })
 
-    //console.log(employees);
+        async function getDept() {
+            const response = axios.get(getDept, {
+                headers: {
+                    "apiToken": API_KEY
+                }
+            })
+            setDepartments(response.data);
+        }
+    }, [API_KEY, EmpUrl])
+
+    console.log(employees, 'Employees');
+    console.log(departments, 'Departments');
 
     //form validation
     const employeeSchema = Yup.object().shape({
@@ -105,6 +118,24 @@ export default function View() {
         }
         console.log(data);
 
+        const response = axios.post(EmpUrl, data, {
+            headers: {
+                "apiToken": API_KEY,
+                "Content-Type": "application/json"
+            }
+        })
+
+        async function getRecords() {
+            const response = axios.get(EmpUrl, {
+                headers: {
+                    "apiToken": API_KEY
+                }
+            })
+            setEmployees(response.data);
+        }
+        //getRecords();
+
+
         Swal.fire({
             icon: 'success',
             title: 'Done !!',
@@ -134,6 +165,23 @@ export default function View() {
             isActive: isActive
         }
         console.log(data);
+
+        const response = axios.put(EmpUrl, data, {
+            headers: {
+                "apiToken": API_KEY,
+                "Content-Type": "application/json"
+            }
+        })
+
+        async function getRecords() {
+            const response = axios.get(EmpUrl, {
+                headers: {
+                    "apiToken": API_KEY
+                }
+            })
+            setEmployees(response.data);
+        }
+        //getRecords();
 
         Swal.fire({
             icon: 'success',
@@ -166,6 +214,24 @@ export default function View() {
             cancelButtonText: 'No, cancel!',
             reverseButtons: true
         }).then((result) => {
+
+            const response = axios.delete(EmpUrl + "/" + id, {
+                headers: {
+                    "apiToken": API_KEY,
+                    "Content-Type": "application/json"
+                }
+            })
+
+            async function getRecords() {
+                const response = axios.get(EmpUrl, {
+                    headers: {
+                        "apiToken": API_KEY
+                    }
+                })
+                setEmployees(response.data);
+            }
+            //getRecords();
+
             if (result.isConfirmed) {
                 swalWithBootstrapButtons.fire(
                     'Deleted!',
@@ -185,6 +251,37 @@ export default function View() {
         })
     }
 
+    //modal - view employee
+    async function showEmpModal() {
+        const id = 1;
+        async function getRecords() {
+            const response = axios.get(EmpUrl + "/" + id, {
+                headers: {
+                    "apiToken": API_KEY,
+                    "Content-Type": "application/json"
+                }
+            })
+            setOneEmployee(response.data);
+        }
+        //getRecords();
+        handleShowEmp();
+    }
+
+    //modal - edit employee
+    async function showEditModal() {
+        const id = 1;
+        async function getRecords() {
+            const response = axios.get(EmpUrl + "/" + id, {
+                headers: {
+                    "apiToken": API_KEY,
+                    "Content-Type": "application/json"
+                }
+            })
+            setOneEmployee(response.data);
+        }
+        //getRecords();
+        handleShowEdit();
+    }
 
     return (
 
@@ -429,19 +526,36 @@ export default function View() {
                 <Modal.Header className="viewHeader" closeButton>
                     <Modal.Title>Employee Details</Modal.Title>
                 </Modal.Header>
+                {/* <Modal.Body>
+                    <p>Emplyee No - {oneEmployee.empNo}</p>
+                    <p>Emplyee Name - {oneEmployee.empName}</p>
+                    <p>Emplyee Address - {oneEmployee.empAddressLine1},{oneEmployee.empAddressLine2},{oneEmployee.empAddressLine3}</p>
+                    <p>Emplyee Department - {oneEmployee.departmentCode}</p>
+                    <p>Emplyee Date of Join - {oneEmployee.dateOfJoin}</p>
+                    <p>Emplyee Date of Birth - {oneEmployee.dateOfBirth}</p>
+                    <p>Emplyee Basic Salary -  {oneEmployee.basicSalary}</p>
+                    <p>Emplyee Status -{oneEmployee.isActive}</p>
+
+                    <div classname>
+                        <Button className="buttonEdit" onClick={() => showEditModal(oneEmployee.empNo)}>Edit</Button>{' '}
+                        <Button variant="danger" onClick={() => handleDelete(oneEmployee.empNo)}>Delete</Button>{' '}
+                    </div>
+                </Modal.Body> */}
+
                 <Modal.Body>
+                    {/* add one emplyee */}
                     <p>Emplyee No - </p>
                     <p>Emplyee Name - </p>
                     <p>Emplyee Address - </p>
                     <p>Emplyee Department - </p>
-                    <p>Emplyee Date of Join -</p>
-                    <p>Emplyee Date of Birth -</p>
-                    <p>Emplyee Basic Salary -</p>
-                    <p>Emplyee Status -</p>
+                    <p>Emplyee Date of Join - </p>
+                    <p>Emplyee Date of Birth - </p>
+                    <p>Emplyee Basic Salary - </p>
+                    <p>Emplyee Status - </p>
 
                     <div classname>
-                        <Button className="buttonEdit" onClick={handleShowEdit}>Edit</Button>{' '}
-                        <Button variant="danger" onClick={() => handleDelete(1)}>Delete</Button>{' '}
+                        <Button className="buttonEdit" onClick={() => showEditModal()}>Edit</Button>{' '}
+                        <Button variant="danger" onClick={() => handleDelete()}>Delete</Button>{' '}
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
@@ -457,22 +571,42 @@ export default function View() {
 
             <div class="view">
                 <Row xs="3">
-                    <Col>
-                        <div className="card">
+                    {/* {
+                        employees.map((employee) => (
+                            <div className="card">
+                                <Col>
+                                    <Card style={{ width: '22rem' }} >
+                                         <Card.Body>
+                                            <Card.Title>{employee.empName}</Card.Title>
+                                            <Card.Text>
+                                                 Emp No - {employee.empNo}
+                                                Date of Join - {employee.dateOfJoin}
+                                            </Card.Text>
+                                             <Button variant="primary" onClick={showEmpModal(employee.empNo)}>View Employee Details</Button> 
+                                        </Card.Body> *
+                                    </Card>
+                                </Col>
+                            </div>
+                        ))
+                    } */}
+                    <div className="card">
+                        <Col>
                             <Card style={{ width: '22rem' }} >
                                 <Card.Body>
-                                    <Card.Title>Emp name</Card.Title>
+                                    <Card.Title></Card.Title>
                                     <Card.Text>
-                                        Emp No -
-                                        Date of Join -
+                                        <p>Emp No - </p>
+                                        <p>Emp Name - </p>
+                                        <p>Date of Join - </p>
                                     </Card.Text>
                                     <Button variant="primary" onClick={handleShowEmp}>View Employee Details</Button>
                                 </Card.Body>
                             </Card>
-                        </div>
-                    </Col>
+                        </Col>
+                    </div>
                 </Row>
             </div>
+
         </div>
     )
 }
