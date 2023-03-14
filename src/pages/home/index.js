@@ -2,7 +2,7 @@ import React from 'react'
 import { Card, CardBody, CardTitle, CardSubtitle, CardText, Button, CardImg, CardImgOverlay } from 'reactstrap'
 
 import './home.css'
-import {img1, img2} from '../../asserts'
+import { img1, img2 } from '../../asserts'
 
 export default function Home() {
 
@@ -30,7 +30,7 @@ export default function Home() {
             </div>
             <div className="homeContainer">
                 <Card
-                    color="light"
+
                     style={{
                         width: '20rem'
                     }}
