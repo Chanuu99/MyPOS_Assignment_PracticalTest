@@ -22,7 +22,7 @@ export default function View() {
     const BASE_URI = process.env.REACT_APP_BASE_URI;
     const API_KEY = process.env.REACT_APP_API_KEY;
 
-    const EmpUrl = BASE_URI + "api/v1.0/Employees/"
+    const EmpUrl = BASE_URI + "api/v1.0/Employees"
     const getDept = BASE_URI + "api/v1.0/Departments"
 
     const [employees, setEmployees] = useState([]);
@@ -46,12 +46,18 @@ export default function View() {
 
     useEffect(() => {
         async function getRecords() {
-            const response = axios.get(EmpUrl, {
-                headers: {
-                    "apiToken": API_KEY
-                }
-            })
-            setEmployees(response.data);
+            try{
+                const response = await axios.get(EmpUrl, {
+                    headers: {
+                        "apiToken": API_KEY
+                    }
+                })
+                setEmployees(response.data);
+
+            }catch(e){
+                console.log(e)
+            }
+            
         }
         getRecords();
 
@@ -133,7 +139,7 @@ export default function View() {
             })
             setEmployees(response.data);
         }
-        //getRecords();
+        getRecords();
 
 
         Swal.fire({
@@ -181,7 +187,7 @@ export default function View() {
             })
             setEmployees(response.data);
         }
-        //getRecords();
+        getRecords();
 
         Swal.fire({
             icon: 'success',
@@ -230,7 +236,7 @@ export default function View() {
                 })
                 setEmployees(response.data);
             }
-            //getRecords();
+            getRecords();
 
             if (result.isConfirmed) {
                 swalWithBootstrapButtons.fire(
@@ -263,7 +269,7 @@ export default function View() {
             })
             setOneEmployee(response.data);
         }
-        //getRecords();
+        getRecords();
         handleShowEmp();
     }
 
@@ -279,7 +285,7 @@ export default function View() {
             })
             setOneEmployee(response.data);
         }
-        //getRecords();
+        getRecords();
         handleShowEdit();
     }
 
@@ -526,7 +532,7 @@ export default function View() {
                 <Modal.Header className="viewHeader" closeButton>
                     <Modal.Title>Employee Details</Modal.Title>
                 </Modal.Header>
-                {/* <Modal.Body>
+                <Modal.Body>
                     <p>Emplyee No - {oneEmployee.empNo}</p>
                     <p>Emplyee Name - {oneEmployee.empName}</p>
                     <p>Emplyee Address - {oneEmployee.empAddressLine1},{oneEmployee.empAddressLine2},{oneEmployee.empAddressLine3}</p>
@@ -540,10 +546,10 @@ export default function View() {
                         <Button className="buttonEdit" onClick={() => showEditModal(oneEmployee.empNo)}>Edit</Button>{' '}
                         <Button variant="danger" onClick={() => handleDelete(oneEmployee.empNo)}>Delete</Button>{' '}
                     </div>
-                </Modal.Body> */}
+                </Modal.Body>
 
-                <Modal.Body>
-                    {/* add one emplyee */}
+                {/* <Modal.Body>
+                    
                     <p>Emplyee No - </p>
                     <p>Emplyee Name - </p>
                     <p>Emplyee Address - </p>
@@ -557,7 +563,7 @@ export default function View() {
                         <Button className="buttonEdit" onClick={() => showEditModal()}>Edit</Button>{' '}
                         <Button variant="danger" onClick={() => handleDelete()}>Delete</Button>{' '}
                     </div>
-                </Modal.Body>
+                </Modal.Body> */}
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleCloseEmp}>
                         Close
@@ -571,7 +577,7 @@ export default function View() {
 
             <div class="view">
                 <Row xs="3">
-                    {/* {
+                    {
                         employees.map((employee) => (
                             <div className="card">
                                 <Col>
@@ -588,7 +594,7 @@ export default function View() {
                                 </Col>
                             </div>
                         ))
-                    } */}
+                    }
                     <div className="card">
                         <Col>
                             <Card style={{ width: '22rem' }} >
