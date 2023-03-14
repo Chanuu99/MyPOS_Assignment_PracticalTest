@@ -46,20 +46,24 @@ export default function View() {
 
     useEffect(() => {
         async function getRecords() {
-            try{
+            try {
                 const response = await axios.get(EmpUrl, {
                     headers: {
-                        "apiToken": API_KEY
+                        "apiToken": API_KEY,
+                        "Content-Type": "application/json"
                     }
                 })
                 setEmployees(response.data);
 
-            }catch(e){
+            } catch (e) {
                 console.log(e)
             }
-            
+
         }
         getRecords();
+        console.log(API_KEY)
+
+        console.log(employees)
 
         async function getDept() {
             const response = axios.get(getDept, {
@@ -69,7 +73,7 @@ export default function View() {
             })
             setDepartments(response.data);
         }
-    }, [API_KEY, EmpUrl])
+    }, [API_KEY, EmpUrl, employees])
 
     console.log(employees, 'Employees');
     console.log(departments, 'Departments');
@@ -277,14 +281,21 @@ export default function View() {
     async function showEditModal() {
         const id = 1;
         async function getRecords() {
-            const response = axios.get(EmpUrl + "/" + id, {
-                headers: {
-                    "apiToken": API_KEY,
-                    "Content-Type": "application/json"
-                }
-            })
-            setOneEmployee(response.data);
+
+            try {
+                const response = axios.get(EmpUrl + "/" + id, {
+                    headers: {
+                        "apiToken": API_KEY,
+                        "Content-Type": "application/json"
+                    }
+                })
+                //setOneEmployee(response.data);
+            } catch (e) {
+                console.log(e)
+            }
         }
+
+
         getRecords();
         handleShowEdit();
     }
@@ -572,6 +583,10 @@ export default function View() {
             </Modal>
 
             <div className="btnRow">
+                {/* <div class="input-group searchBar w-5">
+                    <input type="search" class="form-control rounded searchBar" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                    <button type="button" class="btn btn-outline-primary">search</button>
+                </div> */}
                 <Button variant="primary" onClick={handleShowAdd}>Add New Employee</Button>{' '}
             </div>
 
@@ -582,13 +597,13 @@ export default function View() {
                             <div className="card">
                                 <Col>
                                     <Card style={{ width: '22rem' }} >
-                                         <Card.Body>
+                                        <Card.Body>
                                             <Card.Title>{employee.empName}</Card.Title>
                                             <Card.Text>
-                                                 Emp No - {employee.empNo}
+                                                Emp No - {employee.empNo}
                                                 Date of Join - {employee.dateOfJoin}
                                             </Card.Text>
-                                             <Button variant="primary" onClick={showEmpModal(employee.empNo)}>View Employee Details</Button> 
+                                            <Button variant="primary" onClick={showEmpModal(employee.empNo)}>View Employee Details</Button>
                                         </Card.Body> *
                                     </Card>
                                 </Col>
@@ -597,7 +612,7 @@ export default function View() {
                     }
                     <div className="card">
                         <Col>
-                            <Card style={{ width: '22rem' }} >
+                            <Card style={{ width: '23rem' }} >
                                 <Card.Body>
                                     <Card.Title></Card.Title>
                                     <Card.Text>
