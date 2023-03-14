@@ -1,0 +1,25 @@
+.homeContainer {
+  width: 80%;
+  height: 500px;
+  align-items: center;
+  margin: 0px auto;
+  background-color: #9fbcea80;
+  margin-top: 60px;
+  padding-top: 20px;
+  border-radius: 10px;
+}
+
+.homeCard {
+  margin: 0px auto;
+}
+
+.cardText{
+  font-size: 30px;
+  font-weight:bold;
+  color: white;
+}
+
+.homeRibbon{
+  margin-top : -10px;
+}
+
