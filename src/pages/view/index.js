@@ -53,7 +53,7 @@ export default function View() {
             })
             setEmployees(response.data);
         }
-        getRecords();
+        //getRecords();
 
         async function getDept() {
             const response = axios.get(getDept, {
